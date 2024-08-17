@@ -27,15 +27,13 @@ const gamesContainer = document.getElementById("games-container");
 
 // create a function that adds all data from the games array to the page
 function addGamesToPage(games) {
-
     // loop over each item in the data
     for(let i = 0; i < games.length; i++) {
-
         // create a new div element, which will become the game card
         const entry = document.createElement('div');
 
         // add the class game-card to the list
-        entry.className='game-card';
+        entry.classList.add('game-card');
         
         // set the inner HTML using a template literal to display some info 
         // about each game
@@ -72,12 +70,12 @@ const contributionsCard = document.getElementById("num-contributions");
 
 
 // use reduce() to count the number of total contributions by summing the backers
-const totalContributions = Object.values(GAMES_JSON).reduce((accumulator, game) => {
+const totalContributions = GAMES_JSON.reduce((accumulator, game) => {
     return accumulator + game.backers;
 }, 0);
 
 // set the inner HTML using a template literal and toLocaleString to get a number with commas
-contributionsCard.innerHTML = `<p> Total Contributors ${Number(totalContributions).toLocaleString()} </p>`;
+contributionsCard.innerHTML = `<p>${Number(totalContributions).toLocaleString('en-us')} </p>`;
 
 // grab the amount raised card, then use reduce() to find the total amount raised
 const raisedCard = document.getElementById("total-raised");
@@ -86,12 +84,12 @@ const totalAmountRaised = Object.values(GAMES_JSON).reduce((accumulator, game) =
 }, 0);
 
 // set inner HTML using template literal
-raisedCard.innerHTML = `<p> Total Contribution $${Number(totalAmountRaised).toLocaleString()} </p>`;
+raisedCard.innerHTML = `<p> $${Number(totalAmountRaised).toLocaleString()} </p>`;
 
 // grab number of games card and set its inner HTML
 const gamesCard = document.getElementById("num-games");
 const totalGames = Object.keys(GAMES_JSON).length;
-gamesCard.innerHTML = `<p> Total Games ${Number(totalGames.toLocaleString())}`;
+gamesCard.innerHTML = `<p> ${Number(totalGames.toLocaleString())}`;
 
 /*************************************************************************************
  * Challenge 5: Add functions to filter the funded and unfunded games
@@ -103,7 +101,7 @@ gamesCard.innerHTML = `<p> Total Games ${Number(totalGames.toLocaleString())}`;
 function filterUnfundedOnly() {
     deleteChildElements(gamesContainer);
     // use filter() to get a list of games that have not yet met their goal
-    var FILTERED_GAMES_JSON = GAMES_JSON.filter(function (game) {
+    let FILTERED_GAMES_JSON = GAMES_JSON.filter(function (game) {
         return game.pledged < game.goal;
     })
     
@@ -117,7 +115,7 @@ function filterFundedOnly() {
     deleteChildElements(gamesContainer);
 
     // use filter() to get a list of games that have met or exceeded their goal
-    var FILTERED_GAMES_JSON = GAMES_JSON.filter(function (game) {
+    let FILTERED_GAMES_JSON = GAMES_JSON.filter(function (game) {
         return game.pledged >= game.goal;
     })
 
@@ -163,10 +161,12 @@ const totalUnfundedGames = Object.values(GAMES_JSON).reduce((accumulator, game) 
 },0);
 
 // create a string that explains the number of unfunded games using the ternary operator
-let unfundedString = (totalUnfundedGames > 0) ? `<p> There are currently ${totalUnfundedGames} games that have not reached their funding goal. View them using the filter by unfunded button to help these games reach their goal!` : `There are currently no unfunded games! `;
+let unfundedString = `A total of $${totalAmountRaised.toLocaleString('US-en')} has been raised for ${totalGames} games! Currently, ${totalUnfundedGames} ${totalUnfundedGames == 1 ? "game" : "games"} remain unfunded. We need your help to fund these amazing games!`;
 
 // create a new DOM element containing the template string and append it to the description container
-descriptionContainer.innerHTML = unfundedString;
+let unfundedElement = document.createElement('p');
+unfundedElement.innerHTML = unfundedString;
+descriptionContainer.appendChild(unfundedElement);
 /************************************************************************************
  * Challenge 7: Select & display the top 2 games
  * Skills used: spread operator, destructuring, template literals, sort 
@@ -185,13 +185,34 @@ const numberOfDisplayedGames = 2;
 let [firstGame, secondGame, ...rest] = sortedGames;
 
 // create a new element to hold the name of the top pledge game, then append it to the correct element
-const firstGameElement = document.createElement('div');
-firstGameElement.innerHTML = `<h1> TOP FUNDED GAME </h1>
-                                <h2> ${firstGame.name} </h2>`;
+let firstGameElement = document.createElement('div');
+firstGameElement.innerHTML = `<h2> ${firstGame.name} </h2>`;
 firstGameContainer.appendChild(firstGameElement);
 
 // do the same for the runner up item
 const secondGameElement = document.createElement('div');
-secondGameElement.innerHTML = `<h1> Second funded </h1>
-                                <h2> ${secondGame.name} </h2>`; 
+secondGameElement.innerHTML = `<h2> ${secondGame.name} </h2>`; 
 secondGameContainer.appendChild(secondGameElement);
+
+/************************************************************************************
+ * Extra Challenge : Add filter by name to games list.
+ * Skills used: RegExp, filter(), match().
+ */
+
+function filterBySearch(){
+    //Clear all child elements in the games-list container.
+    deleteChildElements(gamesContainer);
+
+    //Define a pattern which matches the users input to allow partial title searches.
+    let pattern =  new RegExp('\\b' + searchInput.value, 'i');
+
+    //Use the filter() method and match() method to find games with names that partially match the users input text.
+    let FILTERED_GAMES_JSON = GAMES_JSON.filter(game => game.name.match(pattern));
+    if (FILTERED_GAMES_JSON) {
+        addGamesToPage(FILTERED_GAMES_JSON);
+    };
+
+}
+
+const searchInput = document.getElementById("search-input");
+searchInput.addEventListener("input", filterBySearch);

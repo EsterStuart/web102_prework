@@ -76,3 +76,15 @@ button {
     margin: 1%;
     border-radius: 7px;
 }
+
+#search-input {
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 20px;
+    color: #24292e;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    outline: none;
+
+    
+}
