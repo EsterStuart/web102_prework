@@ -39,9 +39,9 @@ function addGamesToPage(games) {
         // about each game
         entry.innerHTML += `<h1> ${games[i].name} </h1>
         <h2> Description : ${games[i].description} </h2>
-        <h2> Pledges : ${games[i].pledged} </h2>
-        <h2> Goal : ${games[i].goal} </h2>
-        <h2> Backers : ${games[i].backers} </h2>
+        <h2> Pledged : $${games[i].pledged.toLocaleString('US-en')} </h2>
+        <h2> Goal : $${games[i].goal.toLocaleString('US-en')} </h2>
+        <h2> Backers : ${games[i].backers.toLocaleString('US-en')} </h2>
         <img class="game-img" src='${games[i].img}' />`;
         // TIP: if your images are not displaying, make sure there is space
         // between the end of the src attribute and the end of the tag ("/>")
@@ -208,11 +208,22 @@ function filterBySearch(){
 
     //Use the filter() method and match() method to find games with names that partially match the users input text.
     let FILTERED_GAMES_JSON = GAMES_JSON.filter(game => game.name.match(pattern));
-    if (FILTERED_GAMES_JSON) {
+    
+    if (FILTERED_GAMES_JSON.length) {
         addGamesToPage(FILTERED_GAMES_JSON);
-    };
+    } else {
+        gamesContainer.innerHTML = `<h1> No games found ): </h1>`;
+    }
 
 }
 
+//Get the searchInput id.
 const searchInput = document.getElementById("search-input");
+
+// Add an event listener that detects any input into the search field.
 searchInput.addEventListener("input", filterBySearch);
+
+//Add an onload function that will clear any inputed text into the search field.
+window.onload = function() {
+    searchInput.value = '';
+}

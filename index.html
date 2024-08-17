@@ -9,8 +9,8 @@
   <body>
     <!-- header row with logo -->
     <div class="header">
+        <h1 class="header-text"> NeoSurf Crowdfunding</h1>
         <img id="tentacles" src="assets/tentacles.png">
-        <h1 class="header-text">Sea Monster Crowdfunding</h1>
     </div>
 
     <!-- background info about company -->
@@ -20,7 +20,7 @@
     </div>
 
     <!-- top games & other interesting stats -->
-    <h2>Stats</h2>
+    <h2 class="title">Stats</h2>
     <div class="stats-container">
         <div class="stats-card">
             <h3>Individual Contributions</h3>
@@ -50,13 +50,12 @@
     <!-- list of games funded by Sea Monster -->
 
 
-    
-    <h2>Our Games</h2>
-    <p>Check out each of our games below!</p>
+    <hr>
+    <h2 class="title">Our Games </h2>
     <div id="button-container">
-        <button id="unfunded-btn">Show Unfunded Only</button>
-        <button id="funded-btn">Show Funded Only</button>
-        <button id="all-btn">Show All Games</button>
+        <button class="filter-button" id="unfunded-btn">Show Unfunded Only</button>
+        <button class="filter-button" id="funded-btn">Show Funded Only</button>
+        <button class="filter-button" id="all-btn">Show All Games</button>
         <input type="text" id="search-input" placeholder="Game Name">
     </div>
     <div id="games-container">
