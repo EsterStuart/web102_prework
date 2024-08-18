@@ -117,3 +117,10 @@ button {
     outline: none;
     
 }
+
+#nav-to-games {
+    margin-left: auto;
+    padding-right: 1%;
+    color: white;
+    font-size: 25px;
+}
