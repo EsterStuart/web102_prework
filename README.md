@@ -39,6 +39,7 @@ GIF created with ShareX
 ## Notes
 
 Describe any challenges encountered while building the app.
+
 -A challenge I encountered on the app was using git in the command line. Normally I have used githubs desktop app to handle git request but I wanted to utilize the command line for this challenge. Thankfully I have learned alot through the tutorials and some trial and error!
 
 -Another new challenge I encountered was the usage of the reduce() function. I had never used this function before but now I feel more confident in it's usages.
